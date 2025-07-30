@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
 import Header from './Header';
-import { getUserCart, updateQuantity } from '../../services/userAxiosCall';
+import { getUserCart, updateQuantity } from '../../services/UserService/userAxiosCall';
 import { useDispatch, useSelector } from 'react-redux';
 import { decrementQty, incrementQty, setCartFromBackend } from '../../redux/Slices/cartSlice';
 
@@ -12,9 +12,12 @@ const Cart = () => {
   const cart = useSelector((state)=>state.cart.cartItems)
 
   const fetchUserCart = async () => {
+    console.log('hlooooooo')
     if (user && user._id) {
       try {
+        console.log('hiiiiiiiiiiiiiiii')
         const data = await getUserCart(user._id);
+        console.log(data,'this is the data')
         if (data && data.cart && data.cart.items) {
           dispatch(setCartFromBackend(data.cart.items));
         }

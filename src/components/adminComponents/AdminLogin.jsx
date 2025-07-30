@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { adminLogin } from '../../services/adminAxiosCall'
+import { adminLogin } from '../../services/AdminService/adminAxiosCall'
 import { useNavigate } from 'react-router-dom'
 
 const AdminLoginForm = () => {
@@ -27,8 +27,11 @@ const AdminLoginForm = () => {
                 try {
                     console.log(values, 'this is the values we got here to send to backend')
                     const data = await adminLogin(values)
+                    
                     console.log(data,'this is the data')
                     if (data.success) {
+                        localStorage.setItem('admin',data.admin)
+                        localStorage.setItem('accessToken',data.accessToken)
                         navigate('/admin/dashboard')
                     } else {
                         console.logO(data.message)

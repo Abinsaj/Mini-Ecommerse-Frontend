@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const storedUser = localStorage.getItem("user");
+console.log(storedUser)
 
 const initialState = {
     user: storedUser ? JSON.parse(storedUser) : null,
@@ -14,6 +15,7 @@ const userSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload;
             state.isAuthenticated = true;
+
         },
         logoutUser: (state) => {
             state.user = null;

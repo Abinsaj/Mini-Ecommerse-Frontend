@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { getAllProduct } from '../../services/adminAxiosCall'
+import { getAllProduct } from '../../services/AdminService/adminAxiosCall'
 import { ShoppingCart } from 'lucide-react'
 import Header from './Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, setCartFromBackend } from '../../redux/Slices/cartSlice'
-import { getUserCart, updatedUserCart } from '../../services/userAxiosCall'
+import { getUserCart, updatedUserCart } from '../../services/UserService/userAxiosCall'
 
 const Home = () => {
 
@@ -26,10 +26,14 @@ const Home = () => {
     }, [])
 
     useEffect(() => {
+        console.log('hlooooooooooo')
         const fetchUserCart = async () => {
+            console.log(user,user._id,'afadffafaffafd')
             if (user && user._id) {
                 try {
+                    console.log('hiiii')
                     const data = await getUserCart(user._id);
+                    console.log(data,'this is the data this is the data')
                     if (data && data.cart && data.cart.items) {
                         dispatch(setCartFromBackend(data.cart.items));
                     }
@@ -48,7 +52,6 @@ const Home = () => {
             if (user && user._id && cart.length > 0) {
                 try {
                     await updatedUserCart(cart, user._id);
-                    console.log('Cart synced to backend successfully!');
                 } catch (err) {
                     console.error('Cart sync failed', err);
                 }

@@ -19,6 +19,13 @@ const Header = () => {
   const [cartItemCount] = useState(3); 
   const navigate = useNavigate()
 
+  const handleSignOut = async()=>{
+    console.log('hfahhfhadsfhiahfiahfiahfihfiaf')
+    localStorage.removeItem("user")
+      localStorage.removeItem("accessToken")
+      navigate('/login')
+  }
+
   return (
     <header className="bg-white shadow-lg">
       <div className="bg-gray-900 text-white py-2 px-4 text-sm">
@@ -104,7 +111,7 @@ const Header = () => {
                     Wishlist
                   </a>
                   <hr className="my-1" />
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <a onClick={()=>handleSignOut()} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Sign Out
                   </a>
                 </div>

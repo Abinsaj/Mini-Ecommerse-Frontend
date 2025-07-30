@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
-import { getAllProduct, deleteProduct } from '../../services/adminAxiosCall';
+import { getAllProduct, deleteProduct } from '../../services/AdminService/adminAxiosCall';
 import ConfirmModal from './ConfirmModal';
 
 const ProductList = () => {

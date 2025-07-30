@@ -15,7 +15,7 @@ import {
   } from 'lucide-react';
   import { useState } from 'react';
   import Navbar from './Navbar';
-import { addProduct } from '../../services/adminAxiosCall';
+import { addProduct } from '../../services/AdminService/adminAxiosCall';
 import { useNavigate } from 'react-router-dom';
   
   const AddProduct = () => {

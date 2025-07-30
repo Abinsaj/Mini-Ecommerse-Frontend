@@ -1,7 +1,7 @@
 import { useFormik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup'
-import { signupUser } from '../../services/userAxiosCall'
+import { signupUser } from '../../services/UserService/userAxiosCall'
 import { useNavigate } from 'react-router-dom'
 
 const SignupForm = () => {

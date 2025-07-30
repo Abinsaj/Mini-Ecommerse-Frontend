@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { loginUser } from '../../services/userAxiosCall'
+import { loginUser } from '../../services/UserService/userAxiosCall'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,8 +28,10 @@ const LoginForm = () => {
                 try {
                     const data = await loginUser(values)
                     if (data.success) {
-                        localStorage.setItem("user", JSON.stringify(data.user))
-                        dispatch(setUser(data.user))
+                        console.log(data,'this is the user data')
+                        localStorage.setItem("user", JSON.stringify(data.user.userExist))
+                        localStorage.setItem('accessToken',data.user.accessToken)
+                        dispatch(setUser(data.user.userExist))
                         navigate('/home')
                     } else {
                         console.log(data.message)

@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Navbar from './Navbar';
-import {  getSingleProduct, updateProduct } from '../../services/adminAxiosCall';
+import {  getSingleProduct, updateProduct } from '../../services/AdminService/adminAxiosCall';
 import {  useNavigate, useParams } from 'react-router-dom';
 
 const EditProduct = () => {
