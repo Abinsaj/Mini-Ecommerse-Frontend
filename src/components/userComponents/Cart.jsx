@@ -4,20 +4,19 @@ import Header from './Header';
 import { getUserCart, updateQuantity } from '../../services/UserService/userAxiosCall';
 import { useDispatch, useSelector } from 'react-redux';
 import { decrementQty, incrementQty, setCartFromBackend } from '../../redux/Slices/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
 
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user.user)
   const cart = useSelector((state)=>state.cart.cartItems)
+  const navigate = useNavigate()
 
   const fetchUserCart = async () => {
-    console.log('hlooooooo')
     if (user && user._id) {
       try {
-        console.log('hiiiiiiiiiiiiiiii')
         const data = await getUserCart(user._id);
-        console.log(data,'this is the data')
         if (data && data.cart && data.cart.items) {
           dispatch(setCartFromBackend(data.cart.items));
         }
@@ -37,7 +36,6 @@ const Cart = () => {
    
     try {
       const response = await updateQuantity(id, change, user._id); 
-      console.log(response)
       const updatedItem = response.data;
       if (change === 1) {
         dispatch(incrementQty({ itemId: updatedItem._id, newQuantity: updatedItem.cartQuantity }));
@@ -56,8 +54,6 @@ const Cart = () => {
   };
 
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.08;
-  const total = subtotal + tax;
 
   if (cart.length === 0) {
     return (
@@ -173,19 +169,19 @@ const Cart = () => {
 
                     <div className="flex justify-between text-gray-600">
                       <span>Tax</span>
-                      <span>₹{tax.toFixed(2)}</span>
+                      <span>₹0%</span>
                     </div>
 
                     <hr className="border-gray-200" />
 
                     <div className="flex justify-between text-lg font-semibold text-gray-900">
                       <span>Total</span>
-                      <span>₹{total.toFixed(2)}</span>
+                      <span>₹{subtotal.toFixed(2)}</span>
                     </div>
                   </div>
 
                   <div className="mt-6 space-y-3">
-                    <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
+                    <button onClick={()=>navigate('/checkout')} className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
                       Proceed to Checkout
                     </button>
 

@@ -2,7 +2,7 @@ import axiosInstance from "../../config/axiosInstance"
 
 export const adminLogin = async(values)=>{
     try {
-        const response = await axiosInstance.post('/admin/login',values)
+        const response = await axiosInstance.post('/api/admin/login',values)
         console.log(response,'response')
         return response.data
     } catch (error) {
@@ -18,7 +18,7 @@ export const addProduct = async(values)=>{
         for(let pair of values.entries()){
             console.log(`${pair[0]}:`,pair[1])
         }
-        const response = await axiosInstance.post('/product',values,{
+        const response = await axiosInstance.post('/api/product',values,{
             headers:{ 'Content-Type': 'multipart/form-data'}
         });
         console.log(response)
@@ -33,7 +33,7 @@ export const addProduct = async(values)=>{
 
 export const getAllProduct = async()=>{
     try {
-        const response = await axiosInstance.get('/product')
+        const response = await axiosInstance.get('/api/product')
         console.log(response)
         return response.data
     } catch (error) {
@@ -46,7 +46,7 @@ export const getAllProduct = async()=>{
 
 export const getSingleProduct = async(id)=>{
     try {
-        const response = await axiosInstance.get(`/product/${id}`)
+        const response = await axiosInstance.get(`/api/product/${id}`)
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
@@ -58,7 +58,7 @@ export const getSingleProduct = async(id)=>{
 
 export const updateProduct = async(id, data)=>{
     try {
-        const response = await axiosInstance.put(`/product/${id}`, data, {
+        const response = await axiosInstance.put(`/api/product/${id}`, data, {
             headers: {
                 'Content-Type':'multipart/form-data'
             }
@@ -74,7 +74,7 @@ export const updateProduct = async(id, data)=>{
 
 export const deleteProduct = async(id)=>{
     try {
-        const response = await axiosInstance.delete(`/product/${id}`)
+        const response = await axiosInstance.delete(`/api/product/${id}`)
         console.log(response)
         return response.data
     } catch (error) {

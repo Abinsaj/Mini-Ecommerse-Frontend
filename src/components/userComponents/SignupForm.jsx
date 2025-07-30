@@ -3,6 +3,7 @@ import React from 'react'
 import * as Yup from 'yup'
 import { signupUser } from '../../services/UserService/userAxiosCall'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const SignupForm = () => {
 
@@ -41,6 +42,9 @@ const SignupForm = () => {
                 console.log(values, 'this is the values we got here to send to backend')
                 const data = await signupUser(values)
                 if (data.success) {
+                    setTimeout(()=>{
+                        toast.success('Registration successful')
+                    },500)
                     navigate('/login')
                 } else {
                     console.logO(data.message)

@@ -5,6 +5,7 @@ import Home from "../components/userComponents/Home";
 import Cart from "../components/userComponents/Cart";
 import UserLoggedOut from "../services/UserService/UserLogOut";
 import UserLoggedIn from "../services/UserService/UserLogIn";
+import CheckoutPage from "../components/userComponents/Checkout";
 
 const UserRoute = () => {
     return (
@@ -18,6 +19,7 @@ const UserRoute = () => {
             <Route path="" element={<UserLoggedIn />}>
                 <Route path="/home" element={<Home />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
             </Route>
         </Routes>
     )

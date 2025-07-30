@@ -2,7 +2,7 @@ import axiosInstance from "../../config/axiosInstance"
 
 export const signupUser = async(values)=>{
     try {
-        const response = await axiosInstance.post('/signup',values);
+        const response = await axiosInstance.post('/api/signup',values);
         return response.data;
     } catch (error) {
         if(error.response && error.response.data){
@@ -14,8 +14,7 @@ export const signupUser = async(values)=>{
 
 export const loginUser = async(values)=>{
     try {
-        const response = await axiosInstance.post('/login',values);
-        console.log(response.data,'dfghjhgfdfghjkjhgf')
+        const response = await axiosInstance.post('/api/login',values);
         return response.data;
     } catch (error) {
         if(error.response && error.response,data){
@@ -27,8 +26,8 @@ export const loginUser = async(values)=>{
 
 export const updatedUserCart = async (cartItems, userId) => {
     try {
-        console.log(cartItems,'this is the cart items,',userId)
-        const response = await axiosInstance.post('/cart', { userId, cartItems });
+
+        const response = await axiosInstance.post('/api/cart', { userId, cartItems });
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : error.message;
@@ -37,7 +36,7 @@ export const updatedUserCart = async (cartItems, userId) => {
 
   export const getUserCart = async (userId) => {
     try {
-        const response = await axiosInstance.get(`/cart/${userId}`);
+        const response = await axiosInstance.get(`/api/cart/${userId}`);
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : error.message;
@@ -47,8 +46,18 @@ export const updatedUserCart = async (cartItems, userId) => {
 
 export const updateQuantity = async(id, newQuantity, userId)=>{
     try {
-        const response = await axiosInstance.put(`/cart/${id}`, { quantity: newQuantity, userId })
+        const response = await axiosInstance.put(`/api/cart/${id}`, { quantity: newQuantity, userId })
         return response
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+
+export const placeOrder = async(value)=>{
+    try {
+        const response = await axiosInstance.post('/api/order',value)
+        console.log(response)
+        return response.data
     } catch (error) {
         throw error.response ? error.response.data : error.message;
     }

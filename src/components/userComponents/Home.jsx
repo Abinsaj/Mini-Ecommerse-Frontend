@@ -5,6 +5,7 @@ import Header from './Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, setCartFromBackend } from '../../redux/Slices/cartSlice'
 import { getUserCart, updatedUserCart } from '../../services/UserService/userAxiosCall'
+import { toast } from 'sonner'
 
 const Home = () => {
 
@@ -25,24 +26,20 @@ const Home = () => {
         getProduct()
     }, [])
 
-    useEffect(() => {
-        console.log('hlooooooooooo')
-        const fetchUserCart = async () => {
-            console.log(user,user._id,'afadffafaffafd')
-            if (user && user._id) {
-                try {
-                    console.log('hiiii')
-                    const data = await getUserCart(user._id);
-                    console.log(data,'this is the data this is the data')
-                    if (data && data.cart && data.cart.items) {
-                        dispatch(setCartFromBackend(data.cart.items));
-                    }
-                } catch (error) {
-                    console.error('Failed to fetch user cart:', error);
-
+    const fetchUserCart = async () => {
+        if (user && user._id) {
+            try {
+                const data = await getUserCart(user._id);
+                if (data && data.cart && data.cart.items) {
+                    dispatch(setCartFromBackend(data.cart.items));
                 }
+            } catch (error) {
+                console.error('Failed to fetch user cart:', error);
+                
             }
-        };
+        }
+    };
+    useEffect(() => {
         fetchUserCart();
     }, [user, dispatch]);
 
@@ -51,7 +48,15 @@ const Home = () => {
         const syncCartToBackend = async () => {
             if (user && user._id && cart.length > 0) {
                 try {
-                    await updatedUserCart(cart, user._id);
+                    let data = await updatedUserCart(cart, user._id);
+                    
+                    if(data.success){
+                        setTimeout(()=>{
+                            toast.success('item added to cart')
+                        },500)
+                        
+                    }
+                    
                 } catch (err) {
                     console.error('Cart sync failed', err);
                 }
@@ -68,6 +73,7 @@ const Home = () => {
     }, [cart, user]);
 
     const handleAddToCart = (productToAdd) => {
+        console.log(productToAdd,'this is the product to add')
         dispatch(addToCart(productToAdd));
     }
 
@@ -91,7 +97,6 @@ const Home = () => {
                         </div>
                         <div>
                             <div className="mt-10">
-                                {/* Decorative image grid */}
                                 <div
                                     aria-hidden="true"
                                     className="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl"
@@ -186,7 +191,6 @@ const Home = () => {
                                             className="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-7/8"
                                         />
 
-                                        {/* Action Icons */}
                                         <div className="absolute bottom-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                             {isInCart ? (
                                                 <a

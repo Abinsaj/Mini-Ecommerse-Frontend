@@ -5,42 +5,45 @@ import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../redux/Slices/userSlice'
+import { toast } from 'sonner'
 
 const LoginForm = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const formik = useFormik({
-            initialValues: {
-                email: '',
-                password: '',
-            },
-            validationSchema: Yup.object({
-                email: Yup.string()
-                    .transform((value) => value.trim())
-                    .email('Invalid email address')
-                    .required("Email is required"),
-                password: Yup.string()
-                    .transform((value) => value.trim())
-                    .min(2, "password must be atleast 8 characters")
-                    .required("password is required"),
-            }),
-            onSubmit: async (values) => {
-                try {
-                    const data = await loginUser(values)
-                    if (data.success) {
-                        console.log(data,'this is the user data')
-                        localStorage.setItem("user", JSON.stringify(data.user.userExist))
-                        localStorage.setItem('accessToken',data.user.accessToken)
-                        dispatch(setUser(data.user.userExist))
-                        navigate('/home')
-                    } else {
-                        console.log(data.message)
-                    }
-                } catch (error) {
-                    console.log(error)
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .transform((value) => value.trim())
+                .email('Invalid email address')
+                .required("Email is required"),
+            password: Yup.string()
+                .transform((value) => value.trim())
+                .min(2, "password must be atleast 8 characters")
+                .required("password is required"),
+        }),
+        onSubmit: async (values) => {
+            try {
+                const data = await loginUser(values)
+                if (data.success) {
+                    localStorage.setItem("user", JSON.stringify(data.user.userExist))
+                    localStorage.setItem('accessToken', data.user.accessToken)
+                    setTimeout(() => {
+                        toast.success('Registration successful')
+                    }, 500)
+                    dispatch(setUser(data.user.userExist))
+                    navigate('/home')
+                } else {
+                    console.log(data.message)
                 }
+            } catch (error) {
+                console.log(error)
             }
-        })
+        }
+    })
 
     return (
         <div className='w-full h-screen flex items-start'>
@@ -74,7 +77,7 @@ const LoginForm = () => {
 
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form action="#" method="POST" className="space-y-6" onSubmit={formik.handleSubmit}>
-                            
+
 
                             <div>
                                 <label htmlFor="email" className="block text-base font-medium leading-6 text-gray-900">
@@ -127,7 +130,7 @@ const LoginForm = () => {
                                 </div>
                             </div>
 
-                            
+
 
                             <div>
                                 <button
