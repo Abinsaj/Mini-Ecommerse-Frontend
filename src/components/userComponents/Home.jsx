@@ -3,82 +3,59 @@ import { getAllProduct } from '../../services/AdminService/adminAxiosCall'
 import { ShoppingCart } from 'lucide-react'
 import Header from './Header'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, setCartFromBackend } from '../../redux/Slices/cartSlice'
+import { addToCart, setCartItems } from '../../redux/Slices/cartSlice'
 import { getUserCart, updatedUserCart } from '../../services/UserService/userAxiosCall'
 import { toast } from 'sonner'
 
 const Home = () => {
 
-    const [product, setProduct] = useState([])
-    const user = useSelector((state) => state.user.user)
-    const cart = useSelector((state) => state.cart.cartItems)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        const getProduct = async () => {
-            try {
-                let data = await getAllProduct()
-                setProduct(data.product)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getProduct()
-    }, [])
+    const [product, setProducts] = useState([]);
+    const cartItems = useSelector(state => state.cart.cartItems);
+    const user = useSelector(state => state.user.user);
+
 
     const fetchUserCart = async () => {
         if (user && user._id) {
             try {
                 const data = await getUserCart(user._id);
-                if (data && data.cart && data.cart.items) {
-                    dispatch(setCartFromBackend(data.cart.items));
+                if (data && data.cart) {
+                    dispatch(setCartItems(data.cart));
                 }
             } catch (error) {
                 console.error('Failed to fetch user cart:', error);
-                
+
             }
         }
     };
     useEffect(() => {
         fetchUserCart();
-    }, [user, dispatch]);
-
+    }, [dispatch]);
 
     useEffect(() => {
-        const syncCartToBackend = async () => {
-            if (user && user._id && cart.length > 0) {
-                try {
-                    let data = await updatedUserCart(cart, user._id);
-                    
-                    if(data.success){
-                        setTimeout(()=>{
-                            toast.success('item added to cart')
-                        },500)
-                        
-                    }
-                    
-                } catch (err) {
-                    console.error('Cart sync failed', err);
-                }
+        const fetchProducts = async () => {
+            try {
+                const data = await getAllProduct();
+                setProducts(data.product);
+            } catch (err) {
+                console.error('Failed to fetch products:', err);
             }
         };
 
-        const handler = setTimeout(() => {
-            syncCartToBackend();
-        }, 500);
+        fetchProducts();
+    }, []);
 
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [cart, user]);
+    const handleAddToCart = async (product) => {
+        try {
+            dispatch(addToCart(product));
 
-    const handleAddToCart = (productToAdd) => {
-        console.log(productToAdd,'this is the product to add')
-        dispatch(addToCart(productToAdd));
-    }
-
-
-    console.log(cart,'this is the cart , this is the cart this is the cart')
+            await updatedUserCart(user._id, product._id,);
+            toast.success('Item added to the cart')
+        } catch (err) {
+            console.error('Error adding to cart:', err);
+        }
+    };
 
     return (
         <div>
@@ -179,9 +156,9 @@ const Home = () => {
                     <h1 className="text-2xl font-bold text-gray-900 pb-4">Products</h1>
 
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                        {product.map((pdt) => {
-                            const isInCart = cart.some(item => item.productId === pdt._id);
+                        {product && product.map((pdt) => {
 
+                            const isInCart = cartItems.some((item) => item.productId === pdt._id);
                             return (
                                 <div key={pdt._id} className="group">
                                     <div className="relative">

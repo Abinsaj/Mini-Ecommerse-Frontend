@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
 import Header from './Header';
-import { getUserCart, updateQuantity } from '../../services/UserService/userAxiosCall';
+import { deleteFromCart, getUserCart, updateQuantity } from '../../services/UserService/userAxiosCall';
 import { useDispatch, useSelector } from 'react-redux';
-import { decrementQty, incrementQty, setCartFromBackend } from '../../redux/Slices/cartSlice';
+import { decrementQty, incrementQty, removeFromCart, setCartItems } from '../../redux/Slices/cartSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const Cart = () => {
 
@@ -17,8 +18,8 @@ const Cart = () => {
     if (user && user._id) {
       try {
         const data = await getUserCart(user._id);
-        if (data && data.cart && data.cart.items) {
-          dispatch(setCartFromBackend(data.cart.items));
+        if (data && data.cart ) {
+          dispatch(setCartItems(data.cart));
         }
       } catch (error) {
         console.error('Failed to fetch user cart:', error);
@@ -49,9 +50,16 @@ const Cart = () => {
     }
   };
 
-  const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+  const removeItem = async(productId) => {
+    try {
+      await deleteFromCart(productId, user._id);
+      dispatch(removeFromCart(productId));
+      toast.success("Item removed from cart");
+    } catch (error) {
+      toast.error("Failed to remove item");
+    }
   };
+
 
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -106,7 +114,6 @@ const Cart = () => {
                             {item.name}
                           </h3>
                           <p className="text-xl font-semibold text-blue-600">
-                            ₹{item.price.toFixed(2)}
                           </p>
                         </div>
 
@@ -132,9 +139,8 @@ const Cart = () => {
                             </button>
                           </div>
 
-                          {/* Remove Button */}
                           <button
-                            onClick={() => removeItem(item._id)}
+                            onClick={() => removeItem(item.productId)}
                             className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-150"
                             aria-label="Remove item"
                           >
@@ -142,7 +148,6 @@ const Cart = () => {
                           </button>
                         </div>
 
-                        {/* Item Total */}
                         <div className="flex-shrink-0 text-right">
                           <p className="text-lg font-semibold text-gray-900">
                             ₹{(item.price * item.quantity).toFixed(2)}

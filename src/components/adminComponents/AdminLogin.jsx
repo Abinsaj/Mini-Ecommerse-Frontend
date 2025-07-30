@@ -25,16 +25,14 @@ const AdminLoginForm = () => {
             }),
             onSubmit: async (values) => {
                 try {
-                    console.log(values, 'this is the values we got here to send to backend')
                     const data = await adminLogin(values)
                     
-                    console.log(data,'this is the data')
                     if (data.success) {
                         localStorage.setItem('admin',data.admin)
                         localStorage.setItem('accessToken',data.accessToken)
                         navigate('/admin/dashboard')
                     } else {
-                        console.logO(data.message)
+                        console.log(data.message)
                     }
                 } catch (error) {
                     console.log(error)

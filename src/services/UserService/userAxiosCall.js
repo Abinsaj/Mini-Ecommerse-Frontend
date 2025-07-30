@@ -24,10 +24,10 @@ export const loginUser = async(values)=>{
     };
 };
 
-export const updatedUserCart = async (cartItems, userId) => {
+export const updatedUserCart = async (userId, product) => {
     try {
 
-        const response = await axiosInstance.post('/api/cart', { userId, cartItems });
+        const response = await axiosInstance.post('/api/cart', { userId, product });
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : error.message;
@@ -56,9 +56,19 @@ export const updateQuantity = async(id, newQuantity, userId)=>{
 export const placeOrder = async(value)=>{
     try {
         const response = await axiosInstance.post('/api/order',value)
-        console.log(response)
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error.message;
     }
 }
+
+export const deleteFromCart = async (productId, userId) => {
+    try {
+      const response = await axiosInstance.delete(`/api/cart/${productId}`, {
+        data: { userId }, 
+      });
+      return response;
+    } catch (error) {
+      throw error.response ? error.response.data : error.message;
+    }
+  };

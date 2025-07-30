@@ -39,7 +39,6 @@ const SignupForm = () => {
         }),
         onSubmit: async (values) => {
             try {
-                console.log(values, 'this is the values we got here to send to backend')
                 const data = await signupUser(values)
                 if (data.success) {
                     setTimeout(()=>{

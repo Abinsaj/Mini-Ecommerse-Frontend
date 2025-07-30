@@ -3,7 +3,6 @@ import axiosInstance from "../../config/axiosInstance"
 export const adminLogin = async(values)=>{
     try {
         const response = await axiosInstance.post('/api/admin/login',values)
-        console.log(response,'response')
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
@@ -15,13 +14,9 @@ export const adminLogin = async(values)=>{
 
 export const addProduct = async(values)=>{
     try {
-        for(let pair of values.entries()){
-            console.log(`${pair[0]}:`,pair[1])
-        }
         const response = await axiosInstance.post('/api/product',values,{
             headers:{ 'Content-Type': 'multipart/form-data'}
         });
-        console.log(response)
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
@@ -34,7 +29,6 @@ export const addProduct = async(values)=>{
 export const getAllProduct = async()=>{
     try {
         const response = await axiosInstance.get('/api/product')
-        console.log(response)
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
@@ -75,7 +69,6 @@ export const updateProduct = async(id, data)=>{
 export const deleteProduct = async(id)=>{
     try {
         const response = await axiosInstance.delete(`/api/product/${id}`)
-        console.log(response)
         return response.data
     } catch (error) {
         if(error.response && error.response.data){

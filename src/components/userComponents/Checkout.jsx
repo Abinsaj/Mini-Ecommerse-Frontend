@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import { clearCart } from '../../redux/Slices/cartSlice';
 import { placeOrder } from '../../services/UserService/userAxiosCall';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutPage = () => {
   
@@ -11,9 +12,9 @@ const CheckoutPage = () => {
   const cart = useSelector((state)=>state.cart.cartItems)
   const user = useSelector((state)=>state.user.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  console.log(cart,'this is the cart')
 
   const handlePlaceOrder = async() => {
     try {
@@ -34,6 +35,7 @@ const CheckoutPage = () => {
         if(order.success){
             dispatch(clearCart())
             toast.success('ORDER PLACED')
+            navigate('/success')
         }else{
             toast.error('something went wrond. please try again')
         }
@@ -52,7 +54,6 @@ const CheckoutPage = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6">
-          {/* Order Details */}
           <div className="mb-8">
             <div className="flex items-center mb-6">
               <Package className="w-6 h-6 text-blue-500 mr-3" />
@@ -79,7 +80,6 @@ const CheckoutPage = () => {
               ))}
             </div>
 
-            {/* Price Breakdown */}
             <div className="border-t border-gray-200 pt-6">
               <div className="space-y-3">
                 <div className="flex justify-between text-lg">
@@ -100,7 +100,6 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          {/* Payment Method */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Method</h3>
             <div className="bg-green-50 border border-green-200 rounded-lg p-6">
@@ -115,7 +114,6 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          {/* Delivery Info */}
           <div className="mb-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="font-semibold text-blue-800 mb-2">Delivery Information</h4>
             <div className="text-blue-700 space-y-1">
@@ -126,7 +124,6 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          {/* Place Order Button */}
           <div className="text-center">
             <button
               onClick={()=>handlePlaceOrder()}

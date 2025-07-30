@@ -51,7 +51,6 @@ const EditProduct = () => {
         const getProduct = async()=>{
             try {
                 const data = await getSingleProduct(id)
-                console.log(data,'the data the data , the data')
                 setFormData({
                     _id: data.product.id,
                     name: data.product.name || '',
@@ -61,7 +60,6 @@ const EditProduct = () => {
                     image: data.product.image || null,
                 });
                 setImagePreview(data.product.image || null);
-                console.log(form,'this is the product product')
             } catch (error) {
                 console.log(error)
             }
@@ -151,9 +149,6 @@ const EditProduct = () => {
         }
     };
 
-    // const handleBackToProducts = () => {
-    //   console.log('Navigate back to products');
-    // };
 
     return (
         <div className="min-h-screen bg-gray-50 flex">

@@ -11,17 +11,20 @@ import {
   Mail
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../../redux/Slices/cartSlice';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [cartItemCount] = useState(3); 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleSignOut = async()=>{
-    console.log('hfahhfhadsfhiahfiahfiahfihfiaf')
     localStorage.removeItem("user")
       localStorage.removeItem("accessToken")
+      dispatch(clearCart())
       navigate('/login')
   }
 

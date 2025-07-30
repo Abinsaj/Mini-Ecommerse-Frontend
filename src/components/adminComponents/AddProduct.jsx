@@ -117,7 +117,6 @@ import { useNavigate } from 'react-router-dom';
         try {
 
             const data = await addProduct(formData)
-            console.log(data,'this is the data')
             navigate('/admin/productlist')
         } catch (error) {
             console.log(error)
@@ -134,10 +133,7 @@ import { useNavigate } from 'react-router-dom';
         setErrors({});
       }
     };
-  
-    // const handleBackToProducts = () => {
-    //   console.log('Navigate back to products');
-    // };
+
   
     return (
       <div className="min-h-screen bg-gray-50 flex">

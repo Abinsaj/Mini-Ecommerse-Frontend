@@ -6,6 +6,7 @@ import Cart from "../components/userComponents/Cart";
 import UserLoggedOut from "../services/UserService/UserLogOut";
 import UserLoggedIn from "../services/UserService/UserLogIn";
 import CheckoutPage from "../components/userComponents/Checkout";
+import SuccessPage from "../components/userComponents/Success";
 
 const UserRoute = () => {
     return (
@@ -20,6 +21,7 @@ const UserRoute = () => {
                 <Route path="/home" element={<Home />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/success" element={<SuccessPage/>}/>
             </Route>
         </Routes>
     )
