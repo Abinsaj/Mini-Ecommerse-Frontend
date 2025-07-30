@@ -1,12 +1,102 @@
-# React + Vite
+# 🛍️ Mini-Ecommerce Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **Frontend** of the Mini-Ecommerce application built using **React.js**, **Redux Toolkit**, and **Axios**. It communicates with the backend to support user registration, login, product listing, cart functionality, and order checkout.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Getting Started
 
-## Expanding the ESLint configuration
+### 1. Clone the repository
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+git clone https://github.com/Abinsaj/Mini-Ecommerce-Frontend.git
+cd Mini-Ecommerce-Frontend
+```
+
+### 2. Install Dependencies
+
+npm install
+
+### 3. Run the App
+
+npm run dev
+
+
+#### Folder Structure
+
+Frontend/
+├── .env                 # Environment variables
+├── .gitignore
+├── public/
+├── src/
+│   ├── App.jsx          # App root
+│   ├── App.css
+│   ├── index.css
+│   ├── main.jsx         # Entry point
+│   ├── assets/          # Images and static assets
+│   ├── components/
+│   │   ├── adminComponents/
+│   │   │   ├── AddProduct.jsx
+│   │   │   ├── AdminLogin.jsx
+│   │   │   ├── ConfirmModal.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── EditProduct.jsx
+│   │   │   └── ProductList.jsx
+│   │   ├── userComponents/
+│   │   │   ├── Cart.jsx
+│   │   │   ├── Checkout.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── LoginForm.jsx
+│   │   │   ├── SignupForm.jsx
+│   │   │   └── Success.jsx
+│   ├── config/
+│   │   └── axiosInstance.js  # Axios base config
+│   ├── redux/
+│   │   ├── Slices/
+│   │   │   ├── cartSlice.js
+│   │   │   └── userSlice.js
+│   │   └── store.js
+│   ├── routes/
+│   │   ├── adminRoutes.jsx
+│   │   └── userRoute.jsx
+│   └── services/
+│       ├── AdminService/
+│       │   ├── adminAxiosCall.js
+│       │   ├── AdminLoggedOut.jsx
+│       │   └── AdminLogin.jsx
+│       └── UserService/
+│           ├── userAxiosCall.js
+│           ├── UserLogin.jsx
+│           └── UserLogOut.jsx
+├── vite.config.js       # Vite config
+├── package.json
+└── README.md
+
+### ⚙️ Tech Stack
+
+React.js
+Redux Toolkit
+Axios
+Vite
+React Router
+
+
+🔄 Key Features
+
+🧑 User & Admin Login
+🛒 Add to Cart
+✔️ Checkout & Order Flow
+🧾 Admin Product Management (CRUD)
+🔐 Protected Routes
+Persistent Redux Store (LocalStorage)
+
+⚠️ Notes
+
+Ensure CORS is correctly configured in your backend.
+The app assumes the backend runs on port 5678.
+Clear Redux on user logout to prevent cart leakage between users.
+
+👤 Author
+
+Abinsaj
