@@ -12,6 +12,9 @@ This is the **Frontend** of the Mini-Ecommerce application built using **React.j
 git clone https://github.com/Abinsaj/Mini-Ecommerce-Frontend.git
 cd Mini-Ecommerce-Frontend
 ```
+Add backend url in .env
+
+VITE_API_URL=your backend url
 
 ### 2. Install Dependencies
 
