@@ -67,7 +67,7 @@ const LoginForm = () => {
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-2">
 
                         <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Sign up
+                            Sign In
                         </h2>
                     </div>
 
@@ -133,7 +133,7 @@ const LoginForm = () => {
                                     type="submit"
                                     className="flex h-12 w-full justify-center rounded-md bg-black px-3 py-3 text-sm font-semibold leading-6 text-white  mt-8 shadow-sm hover:bg-[#04A118] focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-[#04A118]"
                                 >
-                                    Sign Up
+                                    Sign In
                                 </button>
                                 <div className="flex items-center justify-center py-5">
                                     <div className="flex-1 border-t border-black"></div>

@@ -62,7 +62,7 @@ const AdminLoginForm = () => {
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-2">
                         
                         <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Sign up
+                            Sign In
                         </h2>
                     </div>
 
