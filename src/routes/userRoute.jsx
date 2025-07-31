@@ -14,7 +14,7 @@ const UserRoute = () => {
 
             <Route path="" element={<UserLoggedOut />} >
                 <Route path="/signup" element={<SignupForm />} />
-                <Route path="/login" element={<LoginForm />} />
+                <Route path="/" element={<LoginForm />} />
             </Route>
 
             <Route path="" element={<UserLoggedIn />}>
