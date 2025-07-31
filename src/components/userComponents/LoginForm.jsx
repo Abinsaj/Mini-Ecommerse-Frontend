@@ -32,7 +32,7 @@ const LoginForm = () => {
                     localStorage.setItem("user", JSON.stringify(data.user.userExist))
                     localStorage.setItem('accessToken', data.user.accessToken)
                     setTimeout(() => {
-                        toast.success('Registration successful')
+                        toast.success('Login successfull')
                     }, 500)
                     dispatch(setUser(data.user.userExist))
                     navigate('/home')

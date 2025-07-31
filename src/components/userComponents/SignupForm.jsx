@@ -42,7 +42,7 @@ const SignupForm = () => {
                 const data = await signupUser(values)
                 if (data.success) {
                     setTimeout(()=>{
-                        toast.success('Registration successful')
+                        toast.success('Registration successfull')
                     },500)
                     navigate('/login')
                 } else {
