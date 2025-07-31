@@ -25,7 +25,7 @@ const Header = () => {
     localStorage.removeItem("user")
       localStorage.removeItem("accessToken")
       dispatch(clearCart())
-      navigate('/login')
+      navigate('/')
   }
 
   return (

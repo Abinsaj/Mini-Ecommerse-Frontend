@@ -57,28 +57,23 @@ const SignupForm = () => {
     return (
         <div className='w-full h-screen flex items-start'>
             <div className="relative w-1/2 h-full flex-col hidden md:flex">
-                <div className="absolute top-[20%] left-[10%] flex flex-col">
-                    <h1 className="text-4xl text-white font-bold my-4 opacity-70">
-                        Sign up now to hire professionals.
+                <div className="absolute top-[30%] left-[10%] flex flex-col">
+                    <h1 className="text-4xl text-white font-bold my-4 opacity-80">
+                    Discover deals on the best products.
                     </h1>
-                    <p className="text-xl text-white font-normal opacity-70">
-                        Start for free and start interacting with thousands of freelancers.
+                    <p className="text-xl text-grey-300 font-normal opacity-90">
+                    Shop now and enjoy exclusive discounts on top categories.
                     </p>
                 </div>
                 <img
                     className="w-full h-full object-cover"
-
+                    src='images/login1.jpg'
                     alt='Background Image'
                 />
             </div>
             <div className="w-full md:w-1/2 sm:w-1/2 h-full bg-[#f5f5f5] flex flex-col justify-center px-4 py-6 sm:px-6 lg:px-8 ml-auto">
                 <div className="flex h-full w-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-2">
-                        <img
-                            alt="Your Company"
-
-                            className="mx-auto h-12 w-auto"
-                        />
                         <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                             Sign up
                         </h2>
@@ -208,7 +203,7 @@ const SignupForm = () => {
 
                         <p className="mt-10 text-center text-sm text-gray-500">
                             Already have an  account?{' '}
-                            <a href="/login" className="font-semibold leading-6 text-[#04A118] hover:text-[#04A118]">
+                            <a href="/" className="font-semibold leading-6 text-[#04A118] hover:text-[#04A118]">
                                 Sign In
                             </a>
                         </p>

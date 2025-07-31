@@ -48,28 +48,24 @@ const LoginForm = () => {
     return (
         <div className='w-full h-screen flex items-start'>
             <div className="relative w-1/2 h-full flex-col hidden md:flex">
-                <div className="absolute top-[20%] left-[10%] flex flex-col">
-                    <h1 className="text-4xl text-white font-bold my-4 opacity-70">
-                        Sign up now to hire professionals.
+                <div className="absolute top-[30%] left-[10%] flex flex-col">
+                    <h1 className="text-4xl text-white font-bold my-4 opacity-100">
+                    Discover exclusive deals on top products.
                     </h1>
-                    <p className="text-xl text-white font-normal opacity-70">
-                        Start for free and start interacting with thousands of freelancers.
+                    <p className="text-xl text-white font-normal opacity-100">
+                    Shop smart and save big on the latest collections.
                     </p>
                 </div>
                 <img
                     className="w-full h-full object-cover"
-
+                    src='images/login3.jpg'
                     alt='Background Image'
                 />
             </div>
             <div className="w-full md:w-1/2 sm:w-1/2 h-full bg-[#f5f5f5] flex flex-col justify-center px-4 py-6 sm:px-6 lg:px-8 ml-auto">
                 <div className="flex h-full w-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-2">
-                        <img
-                            alt="Your Company"
 
-                            className="mx-auto h-12 w-auto"
-                        />
                         <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                             Sign up
                         </h2>
