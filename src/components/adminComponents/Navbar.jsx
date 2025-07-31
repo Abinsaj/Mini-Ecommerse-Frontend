@@ -30,7 +30,7 @@ const Navbar = () => {
             
             <div className="flex items-center space-x-3">
               <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">Sarah Wilson</p>
+                <p className="text-sm font-medium text-gray-900">Abinsaj</p>
                 <p className="text-xs text-gray-500">Administrator</p>
               </div>
               <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
