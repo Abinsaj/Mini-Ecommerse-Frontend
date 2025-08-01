@@ -1,201 +1,228 @@
-import { 
-    Settings, 
-    Home, 
-    BarChart3, 
-    Users, 
-    Package, 
-    CreditCard, 
-    MessageSquare, 
-    Calendar,
-    X,
-    ShoppingCart,
-    Upload,
-    Save,
-    ArrowLeft,
-  } from 'lucide-react';
-  import { useState } from 'react';
-  import Navbar from './Navbar';
+import {
+  Settings,
+  Home,
+  BarChart3,
+  Users,
+  Package,
+  CreditCard,
+  MessageSquare,
+  Calendar,
+  X,
+  ShoppingCart,
+  Upload,
+  Save,
+  ArrowLeft,
+} from 'lucide-react';
+import { useState } from 'react';
+import Navbar from './Navbar';
 import { addProduct } from '../../services/AdminService/adminAxiosCall';
 import { useNavigate } from 'react-router-dom';
-  
-  const AddProduct = () => {
-    const navigate = useNavigate()
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [activeTab, setActiveTab] = useState('products');
-    const [form, setFormData] = useState({
-      name: '',
-      description: '',
-      price: '',
-      quantity: '',
-      image: null
-    });
-    const [imagePreview, setImagePreview] = useState(null);
-    const [errors, setErrors] = useState({});
-  
-    const sidebarItems = [
-        { id: 'dashboard', label: 'Dashboard', icon: Home, path: '/admin/dashboard' },
-        { id: 'products', label: 'Products', icon: Package ,path: '/admin/productlist' },
-        { id: 'users', label: 'Users', icon: Users },
-        { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-        { id: 'orders', label: 'Orders', icon: ShoppingCart },
-        { id: 'payments', label: 'Payments', icon: CreditCard },
-        { id: 'messages', label: 'Messages', icon: MessageSquare },
-        { id: 'calendar', label: 'Calendar', icon: Calendar },
-        { id: 'settings', label: 'Settings', icon: Settings },
-      ];
-  
-    
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
+
+const AddProduct = () => {
+  const navigate = useNavigate()
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('products');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [form, setFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+    quantity: '',
+    image: null
+  });
+  const [imagePreview, setImagePreview] = useState(null);
+  const [errors, setErrors] = useState({});
+
+  const sidebarItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: Home, path: '/admin/dashboard' },
+    { id: 'products', label: 'Products', icon: Package, path: '/admin/productlist' },
+    { id: 'users', label: 'Users', icon: Users },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'orders', label: 'Orders', icon: ShoppingCart },
+    { id: 'payments', label: 'Payments', icon: CreditCard },
+    { id: 'messages', label: 'Messages', icon: MessageSquare },
+    { id: 'calendar', label: 'Calendar', icon: Calendar },
+    { id: 'settings', label: 'Settings', icon: Settings },
+  ];
+
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
       setFormData(prev => ({
         ...prev,
-        [name]: value
+        image: file
       }));
-      if (errors[name]) {
-        setErrors(prev => ({
-          ...prev,
-          [name]: ''
-        }));
-      }
-    };
-  
-    const handleImageChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        setFormData(prev => ({
-          ...prev,
-          image: file
-        }));
-        
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-  
-    const validateForm = () => {
-      const newErrors = {};
-      
-      if (!form.name.trim()) {
-        newErrors.name = 'Product name is required';
-      }
-      
-      if (!form.description.trim()) {
-        newErrors.description = 'Description is required';
-      }
-      
-      if (!form.price || parseFloat(form.price) <= 0) {
-        newErrors.price = 'Valid price is required';
-      }
-      
-      if (!form.quantity || parseInt(form.quantity) < 0) {
-        newErrors.quantity = 'Valid quantity is required';
-      }
-      
-      if (!form.image) {
-        newErrors.image = 'Product image is required';
-      }
-      
-      setErrors(newErrors);
-      return Object.keys(newErrors).length === 0;
-    };
-  
-    const handleSubmit = async(e) => {
-      e.preventDefault();
-      
-      if (validateForm()) {
-        const formData = new FormData();
-        formData.append('name',form.name);
-        formData.append('description',form.description)
-        formData.append('price',form.price)
-        formData.append('quantity',form.quantity)
-        formData.append('image',form.image)
 
-        try {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-            const data = await addProduct(formData)
-            navigate('/admin/productlist')
-        } catch (error) {
-            console.log(error)
-        }
-        
-        setFormData({
-          name: '',
-          description: '',
-          price: '',
-          quantity: '',
-          image: null
-        });
-        setImagePreview(null);
-        setErrors({});
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!form.name.trim()) {
+      newErrors.name = 'Product name is required';
+    }
+
+    if (!form.description.trim()) {
+      newErrors.description = 'Description is required';
+    }
+
+    if (!form.price || parseFloat(form.price) <= 0) {
+      newErrors.price = 'Valid price is required';
+    }
+
+    if (!form.quantity || parseInt(form.quantity) < 0) {
+      newErrors.quantity = 'Valid quantity is required';
+    }
+
+    if (!form.image) {
+      newErrors.image = 'Product image is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      const formData = new FormData();
+      formData.append('name', form.name);
+      formData.append('description', form.description)
+      formData.append('price', form.price)
+      formData.append('quantity', form.quantity)
+      formData.append('image', form.image)
+      setIsLoading(true);
+      try {
+
+        const data = await addProduct(formData)
+        navigate('/admin/productlist')
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false);
       }
-    };
 
-  
-    return (
-      <div className="min-h-screen bg-gray-50 flex">
-        <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      setFormData({
+        name: '',
+        description: '',
+        price: '',
+        quantity: '',
+        image: null
+      });
+      setImagePreview(null);
+      setErrors({});
+    }
+  };
+
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex">
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
-          <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg"></div>
-              <span className="text-xl font-bold text-gray-800">Mini-Ecommerce</span>
-            </div>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="lg:hidden p-1 rounded-md hover:bg-gray-100"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg"></div>
+            <span className="text-xl font-bold text-gray-800">Mini-Ecommerce</span>
           </div>
-          
-          <nav className="mt-6 px-3">
-            {sidebarItems.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => navigate(item.path)}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 mb-1 rounded-lg text-left transition-colors duration-200 ${
-                    activeTab === item.id
-                      ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
-                >
-                  <IconComponent className="w-5 h-5" />
-                  <span className="font-medium">{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden p-1 rounded-md hover:bg-gray-100"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-  
-        <div className="flex-1 flex flex-col lg:ml-0">
-          <Navbar />
-  
-          <div className="bg-white min-h-full">
-            <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center space-x-4">
-                  <button
-                    onClick={()=>navigate('/admin/productlist')}
-                    className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-                  >
-                    <ArrowLeft className="w-5 h-5" />
-                    <span>Back to Products</span>
-                  </button>
-                  <h2 className="text-2xl font-bold text-gray-900">Add New Product</h2>
-                </div>
+
+        <nav className="mt-6 px-3">
+          {sidebarItems.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <button
+                key={item.id}
+                onClick={() => navigate(item.path)}
+                className={`w-full flex items-center space-x-3 px-3 py-2 mb-1 rounded-lg text-left transition-colors duration-200 ${activeTab === item.id
+                    ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
+              >
+                <IconComponent className="w-5 h-5" />
+                <span className="font-medium">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      <div className="flex-1 flex flex-col lg:ml-0">
+        <Navbar />
+
+        <div className="bg-white min-h-full">
+          <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => navigate('/admin/productlist')}
+                  className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                  <span>Back to Products</span>
+                </button>
+                <h2 className="text-2xl font-bold text-gray-900">Add New Product</h2>
               </div>
-  
+            </div>
+
+            {isLoading ? (
+              <div className="flex flex-col items-center justify-center py-20">
+                <svg
+                  className="animate-spin h-10 w-10 text-blue-600 mb-4"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+                <p className="text-lg font-medium text-gray-700">Adding Product...</p>
+              </div>
+            ) : (
+
               <div className="space-y-8">
                 <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl p-8">
                   <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
-                    
+
                     <div className="sm:col-span-2">
                       <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                         Product Name
@@ -207,17 +234,16 @@ import { useNavigate } from 'react-router-dom';
                           id="name"
                           value={form.name}
                           onChange={handleInputChange}
-                          className={`block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${
-                            errors.name 
-                              ? 'ring-red-300 focus:ring-red-600' 
+                          className={`block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${errors.name
+                              ? 'ring-red-300 focus:ring-red-600'
                               : 'ring-gray-300 focus:ring-blue-600'
-                          }`}
+                            }`}
                           placeholder="Enter product name"
                         />
                         {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name}</p>}
                       </div>
                     </div>
-  
+
                     <div className="sm:col-span-2">
                       <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
                         Description
@@ -229,17 +255,16 @@ import { useNavigate } from 'react-router-dom';
                           rows={4}
                           value={form.description}
                           onChange={handleInputChange}
-                          className={`block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${
-                            errors.description 
-                              ? 'ring-red-300 focus:ring-red-600' 
+                          className={`block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${errors.description
+                              ? 'ring-red-300 focus:ring-red-600'
                               : 'ring-gray-300 focus:ring-blue-600'
-                          }`}
+                            }`}
                           placeholder="Enter product description"
                         />
                         {errors.description && <p className="mt-2 text-sm text-red-600">{errors.description}</p>}
                       </div>
                     </div>
-  
+
                     <div>
                       <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
                         Price ($)
@@ -253,17 +278,16 @@ import { useNavigate } from 'react-router-dom';
                           min="0"
                           value={form.price}
                           onChange={handleInputChange}
-                          className={`block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${
-                            errors.price 
-                              ? 'ring-red-300 focus:ring-red-600' 
+                          className={`block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${errors.price
+                              ? 'ring-red-300 focus:ring-red-600'
                               : 'ring-gray-300 focus:ring-blue-600'
-                          }`}
+                            }`}
                           placeholder="0.00"
                         />
                         {errors.price && <p className="mt-2 text-sm text-red-600">{errors.price}</p>}
                       </div>
                     </div>
-  
+
                     <div>
                       <label htmlFor="quantity" className="block text-sm font-medium leading-6 text-gray-900">
                         Quantity
@@ -276,26 +300,24 @@ import { useNavigate } from 'react-router-dom';
                           min="0"
                           value={form.quantity}
                           onChange={handleInputChange}
-                          className={`block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${
-                            errors.quantity 
-                              ? 'ring-red-300 focus:ring-red-600' 
+                          className={`block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${errors.quantity
+                              ? 'ring-red-300 focus:ring-red-600'
                               : 'ring-gray-300 focus:ring-blue-600'
-                          }`}
+                            }`}
                           placeholder="0"
                         />
                         {errors.quantity && <p className="mt-2 text-sm text-red-600">{errors.quantity}</p>}
                       </div>
                     </div>
-  
+
                     {/* Image Upload */}
                     <div className="sm:col-span-2">
                       <label htmlFor="image" className="block text-sm font-medium leading-6 text-gray-900">
                         Product Image
                       </label>
                       <div className="mt-2">
-                        <div className={`flex justify-center rounded-lg border border-dashed px-6 py-10 ${
-                          errors.image ? 'border-red-300' : 'border-gray-900/25'
-                        }`}>
+                        <div className={`flex justify-center rounded-lg border border-dashed px-6 py-10 ${errors.image ? 'border-red-300' : 'border-gray-900/25'
+                          }`}>
                           <div className="text-center">
                             {imagePreview ? (
                               <div className="mb-4">
@@ -333,7 +355,7 @@ import { useNavigate } from 'react-router-dom';
                     </div>
                   </div>
                 </div>
-  
+
                 {/* Submit Button */}
                 <div className="flex items-center justify-end space-x-4">
                   <button
@@ -353,18 +375,19 @@ import { useNavigate } from 'react-router-dom';
                   </button>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
-  
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-            onClick={() => setSidebarOpen(false)}
-          ></div>
-        )}
       </div>
-    );
-  };
-  
-  export default AddProduct;
+
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
+    </div>
+  );
+};
+
+export default AddProduct;

@@ -38,9 +38,10 @@ const LoginForm = () => {
                     navigate('/home')
                 } else {
                     console.log(data.message)
+                    toast.error(data.message)
                 }
             } catch (error) {
-                console.log(error)
+                console.log(error,'thithhtiththi')
             }
         }
     })

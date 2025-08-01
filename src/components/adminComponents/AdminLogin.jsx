@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { adminLogin } from '../../services/AdminService/adminAxiosCall'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const AdminLoginForm = () => {
 
@@ -26,13 +27,14 @@ const AdminLoginForm = () => {
             onSubmit: async (values) => {
                 try {
                     const data = await adminLogin(values)
-                    
+                    console.log(data,'this is the data we got here')
                     if (data.success) {
                         localStorage.setItem('admin',data.admin)
                         localStorage.setItem('accessToken',data.accessToken)
                         navigate('/admin/dashboard')
                     } else {
                         console.log(data.message)
+                        toast.error(data.message)
                     }
                 } catch (error) {
                     console.log(error)

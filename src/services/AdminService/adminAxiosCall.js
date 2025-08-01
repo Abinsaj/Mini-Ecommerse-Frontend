@@ -6,9 +6,8 @@ export const adminLogin = async(values)=>{
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
-            return response.data
+            return error.response.data
         }
-        console.log(error)
     }
 } 
 
@@ -20,7 +19,7 @@ export const addProduct = async(values)=>{
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
-            return response.data
+            return error.response.data
         }
         console.log(error)
     }
@@ -32,7 +31,7 @@ export const getAllProduct = async()=>{
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
-            return response.data
+            return error.response.data
         }
         console.log(error)
     }
@@ -44,7 +43,7 @@ export const getSingleProduct = async(id)=>{
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
-            return response.data
+            return error.response.data
         }
         console.log(error)
     }
@@ -60,7 +59,7 @@ export const updateProduct = async(id, data)=>{
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
-            return response.data
+            return error.response.data
         }
         console.log(error)
     }
@@ -72,7 +71,7 @@ export const deleteProduct = async(id)=>{
         return response.data
     } catch (error) {
         if(error.response && error.response.data){
-            return response.data
+            return error.response.data
         }
         console.log(error)
     }

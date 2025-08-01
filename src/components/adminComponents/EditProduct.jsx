@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import {  getSingleProduct, updateProduct } from '../../services/AdminService/adminAxiosCall';
 import {  useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const EditProduct = () => {
 
@@ -139,8 +140,10 @@ const EditProduct = () => {
 
                 const data = await updateProduct(id,formData)
                 console.log(data,'this is the data we got here')
-                if(data.success ){
+                if(data&&data.success ){
                     navigate('/admin/productlist')
+                }else{
+                    toast.error('Something went wrong ,Please try again')
                 }
             } catch (error) {
                 console.log(error)

@@ -133,6 +133,8 @@ const ProductList = () => {
                             </button>
                         </div>
 
+
+                        {product.length > 0 ? (
                         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                             {product.map((pdt) => (
                                 <a key={pdt._id} className="group">
@@ -178,6 +180,17 @@ const ProductList = () => {
                                 </a>
                             ))}
                         </div>
+                        ) : (
+                            <div className="text-center mt-20">
+                              <p className="text-gray-600 text-lg mb-4">No products available.</p>
+                              <button
+                                onClick={() => navigate('/admin/addproduct')}
+                                className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                              >
+                                Add New Product
+                              </button>
+                            </div>
+                          )}
                     </div>
                 </div>
 

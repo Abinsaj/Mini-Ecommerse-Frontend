@@ -17,10 +17,9 @@ export const loginUser = async(values)=>{
         const response = await axiosInstance.post('/api/login',values);
         return response.data;
     } catch (error) {
-        if(error.response && error.response,data){
-            return error.response.data;
+        if(error.response && error.response.data){
+             return error.response.data;
         }
-        console.log(error);
     };
 };
 
@@ -30,7 +29,9 @@ export const updatedUserCart = async (userId, product) => {
         const response = await axiosInstance.post('/api/cart', { userId, product });
         return response.data;
     } catch (error) {
-        throw error.response ? error.response.data : error.message;
+        if(error.response && error.response.data){
+            return error.response.data;
+       }
     }
 };
 
@@ -39,7 +40,9 @@ export const updatedUserCart = async (userId, product) => {
         const response = await axiosInstance.get(`/api/cart/${userId}`);
         return response.data;
     } catch (error) {
-        throw error.response ? error.response.data : error.message;
+        if(error.response && error.response.data){
+            return error.response.data;
+       }
     }
 };
 
@@ -49,7 +52,9 @@ export const updateQuantity = async(id, newQuantity, userId)=>{
         const response = await axiosInstance.put(`/api/cart/${id}`, { quantity: newQuantity, userId })
         return response
     } catch (error) {
-        throw error.response ? error.response.data : error.message;
+        if(error.response && error.response.data){
+            return error.response.data;
+       }
     }
 }
 
@@ -58,7 +63,9 @@ export const placeOrder = async(value)=>{
         const response = await axiosInstance.post('/api/order',value)
         return response.data
     } catch (error) {
-        throw error.response ? error.response.data : error.message;
+        if(error.response && error.response.data){
+            return error.response.data;
+       }
     }
 }
 
@@ -69,6 +76,8 @@ export const deleteFromCart = async (productId, userId) => {
       });
       return response;
     } catch (error) {
-      throw error.response ? error.response.data : error.message;
+        if(error.response && error.response.data){
+            return error.response.data;
+       }
     }
   };
